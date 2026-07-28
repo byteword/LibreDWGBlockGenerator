@@ -18,3 +18,27 @@ jobs:
           dotnet-version: 10.0.x
       - run: dotnet build LibreDWGBlockGenerator.slnx --configuration Release
       - run: dotnet run --project tests/LibreDWG.BlockGenerator.SmokeTests --configuration Release --no-build
+
+  inno-definition:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install Inno Setup
+        run: choco install innosetup --yes --no-progress
+      - name: Prepare compiler fixture
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path artifacts/inno-smoke/payload -Force | Out-Null
+          Copy-Item LICENSE artifacts/inno-smoke/payload/LICENSE
+          Set-Content artifacts/inno-smoke/payload/libredwg-block-generator.exe "compiler fixture"
+      - name: Compile installer definition
+        shell: pwsh
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" `
+            /Qp `
+            "/DSourceRoot=$pwd\artifacts\inno-smoke\payload" `
+            "/DOutputDir=$pwd\artifacts\inno-smoke\output" `
+            "/DRepositoryRoot=$pwd" `
+            "/DAppVersion=0.2.0.0" `
+            installer\LDBGen.iss
+          if ($LASTEXITCODE -ne 0) { throw "Inno Setup definition compile failed." }

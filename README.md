@@ -1,7 +1,9 @@
-# LibreDWG Block Generator
+# LibreDWG Block Generator (LDBGen)
 
 LibreDWG Block Generator is an independent command-line application for generating
 dynamic block DWG files from implementation-neutral JSON specifications.
+
+The abbreviated project name is **LDBGen**. The current version is `0.2.0.0`.
 
 The public interface is deliberately small:
 
@@ -38,7 +40,8 @@ dotnet run --project src/LibreDWG.BlockGenerator.Cli -- generate `
 See [the input specification](docs/input-spec-v1.md),
 [CLI contract](docs/command-line.md), and
 [JSON Schema](schema/dynamic-block-spec-v1.schema.json). Native build instructions
-are in [docs/native-build.md](docs/native-build.md).
+are in [docs/native-build.md](docs/native-build.md). See
+[VERSIONING.md](VERSIONING.md) for the four-part version policy.
 
 ## Build
 
@@ -46,6 +49,20 @@ are in [docs/native-build.md](docs/native-build.md).
 dotnet build LibreDWGBlockGenerator.slnx
 dotnet run --project tests/LibreDWG.BlockGenerator.SmokeTests
 ```
+
+## Windows installer
+
+The user-level Windows installer packages the self-contained .NET CLI, the native
+adapter, LibreDWG, the license, and a SHA-256 payload manifest:
+
+```powershell
+./scripts/Build-Installer.ps1 `
+  -LibreDwgSourceDir <libredwg-source> `
+  -LibreDwgBuildDir <libredwg-build>
+```
+
+Use `-SkipInstallerCompile` to prepare and verify the complete payload on a machine
+without Inno Setup 6.
 
 ## License
 

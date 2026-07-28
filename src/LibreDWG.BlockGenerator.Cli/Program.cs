@@ -12,7 +12,8 @@ static int Run(string[] args)
 
     if (args[0] is "--version" or "version")
     {
-        Console.WriteLine("libredwg-block-generator 0.1.0");
+        var version = typeof(DynamicBlockDocument).Assembly.GetName().Version;
+        Console.WriteLine($"LDBGen {version}");
         return 0;
     }
 
@@ -113,7 +114,7 @@ static string? ReadOption(string[] args, string name)
 
 static void PrintHelp()
 {
-    Console.WriteLine("LibreDWG Block Generator");
+    Console.WriteLine("LibreDWG Block Generator (LDBGen)");
     Console.WriteLine("Usage:");
     Console.WriteLine("  libredwg-block-generator validate --input <spec.json>");
     Console.WriteLine("  libredwg-block-generator generate --input <spec.json> --output <file.dwg>");

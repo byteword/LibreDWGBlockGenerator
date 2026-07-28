@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(lbg_native VERSION 0.1.0 LANGUAGES C)
+project(lbg_native VERSION 0.2.0.0 LANGUAGES C)
 
 set(LIBREDWG_SOURCE_DIR "" CACHE PATH "LibreDWG source directory")
 set(LIBREDWG_BINARY_DIR "" CACHE PATH "LibreDWG build directory")
