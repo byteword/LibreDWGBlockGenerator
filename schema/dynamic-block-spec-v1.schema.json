@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/byteword/LibreDWGBlockGenerator/schema/dynamic-block-spec-v1.schema.json",
+  "title": "Dynamic Block Specification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "document", "block"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dwgVersion", "units"],
+      "properties": {
+        "dwgVersion": { "const": "r2004" },
+        "units": { "const": "millimeters" }
+      }
+    },
+    "block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "origin", "geometry", "parameters", "actions"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "origin": { "$ref": "#/$defs/xyz" },
+        "geometry": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/polyline2d" } },
+        "parameters": { "type": "array", "items": { "$ref": "#/$defs/linearParameter" } },
+        "actions": { "type": "array", "items": { "$ref": "#/$defs/stretchAction" } }
+      }
+    }
+  },
+  "$defs": {
+    "xy": {
+      "type": "array",
+      "prefixItems": [{ "type": "number" }, { "type": "number" }],
+      "items": false
+    },
+    "xyz": {
+      "type": "array",
+      "prefixItems": [{ "type": "number" }, { "type": "number" }, { "type": "number" }],
+      "items": false
+    },
+    "polyline2d": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "closed", "vertices"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "type": { "const": "polyline2d" },
+        "closed": { "type": "boolean" },
+        "vertices": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/xy" } }
+      }
+    },
+    "linearParameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "name", "start", "end"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "type": { "const": "linear" },
+        "name": { "type": "string", "minLength": 1 },
+        "start": { "$ref": "#/$defs/xy" },
+        "end": { "$ref": "#/$defs/xy" },
+        "minimum": { "type": "number" },
+        "maximum": { "type": "number" }
+      }
+    },
+    "stretchAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "parameterId", "selection", "stretchFrame"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "type": { "const": "stretch" },
+        "parameterId": { "type": "string", "minLength": 1 },
+        "selection": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "stretchFrame": {
+          "type": "array",
+          "prefixItems": [{ "$ref": "#/$defs/xy" }, { "$ref": "#/$defs/xy" }],
+          "items": false
+        }
+      }
+    }
+  }
+}

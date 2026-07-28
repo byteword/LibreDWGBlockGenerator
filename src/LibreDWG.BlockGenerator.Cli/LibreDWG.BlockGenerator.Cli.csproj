@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>libredwg-block-generator</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../LibreDWG.BlockGenerator.Specification/LibreDWG.BlockGenerator.Specification.csproj" />
+  </ItemGroup>
+</Project>
+

@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LibreDWG.BlockGenerator.Specification/LibreDWG.BlockGenerator.Specification.csproj" />
+    <Project Path="src/LibreDWG.BlockGenerator.Cli/LibreDWG.BlockGenerator.Cli.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LibreDWG.BlockGenerator.SmokeTests/LibreDWG.BlockGenerator.SmokeTests.csproj" />
+  </Folder>
+</Solution>
+
