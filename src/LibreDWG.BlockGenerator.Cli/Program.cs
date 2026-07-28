@@ -63,8 +63,44 @@ static int Generate(string? input, string? output)
         return 2;
     }
 
-    Console.Error.WriteLine("DWG generation backend is not available in this build.");
-    return 3;
+    var document = validation.Document!;
+    if (document.Document.DwgVersion != "r2000"
+        || document.Block.Parameters.Count != 0
+        || document.Block.Actions.Count != 0
+        || document.Block.Geometry.Count != 1)
+    {
+        Console.Error.WriteLine(
+            "This backend milestone supports one static polyline2d block in r2000 only.");
+        return 3;
+    }
+
+    var fullOutput = Path.GetFullPath(output);
+    if (File.Exists(fullOutput) || !Directory.Exists(Path.GetDirectoryName(fullOutput)))
+    {
+        Console.Error.WriteLine("Output must be a new file in an existing directory.");
+        return 7;
+    }
+
+    try
+    {
+        var geometry = document.Block.Geometry[0];
+        var coordinates = geometry.Vertices.SelectMany(point => point).Select(decimal.ToDouble).ToArray();
+        var exitCode = NativeBackend.GenerateR2000PolylineBlock(
+            fullOutput,
+            document.Block.Name,
+            document.Block.Origin.Select(decimal.ToDouble).ToArray(),
+            coordinates,
+            geometry.Vertices.Count,
+            geometry.Closed);
+        if (exitCode == 0)
+            Console.WriteLine(fullOutput);
+        return exitCode;
+    }
+    catch (DllNotFoundException exception)
+    {
+        Console.Error.WriteLine(exception.Message);
+        return 3;
+    }
 }
 
 static string? ReadOption(string[] args, string name)
@@ -83,4 +119,3 @@ static void PrintHelp()
     Console.WriteLine("  libredwg-block-generator generate --input <spec.json> --output <file.dwg>");
     Console.WriteLine("  libredwg-block-generator --version");
 }
-

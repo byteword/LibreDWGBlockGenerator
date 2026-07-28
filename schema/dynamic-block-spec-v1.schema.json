@@ -12,7 +12,7 @@
       "additionalProperties": false,
       "required": ["dwgVersion", "units"],
       "properties": {
-        "dwgVersion": { "const": "r2004" },
+        "dwgVersion": { "enum": ["r2000", "r2004"] },
         "units": { "const": "millimeters" }
       }
     },

@@ -40,8 +40,8 @@ public static class SpecificationValidator
         var errors = new List<ValidationError>();
         if (!string.Equals(document.SchemaVersion, "1.0", StringComparison.Ordinal))
             errors.Add(new("schemaVersion", "Only schema version 1.0 is supported."));
-        if (!string.Equals(document.Document.DwgVersion, "r2004", StringComparison.Ordinal))
-            errors.Add(new("document.dwgVersion", "The initial implementation target is r2004."));
+        if (document.Document.DwgVersion is not ("r2000" or "r2004"))
+            errors.Add(new("document.dwgVersion", "Schema v1 supports r2000 and r2004 targets."));
         if (!string.Equals(document.Document.Units, "millimeters", StringComparison.Ordinal))
             errors.Add(new("document.units", "The initial implementation requires millimeters."));
         if (string.IsNullOrWhiteSpace(document.Block.Name))
@@ -124,4 +124,3 @@ public sealed record ValidationResult(DynamicBlockDocument? Document, IReadOnlyL
     public static ValidationResult Failure(string path, string message) =>
         new(null, [new ValidationError(path, message)]);
 }
-

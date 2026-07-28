@@ -15,6 +15,10 @@ libredwg-block-generator generate --input <spec.json> --output <file.dwg>
 The output is written only after the complete in-memory document has been encoded
 and checked. Failure must not leave a file at the requested output path.
 
+The current native milestone generates one static `polyline2d` block in R2000 and
+then reopens the DWG to verify the requested block table record. R2004 and dynamic
+actions return code `3` until the experimental writer is separately proven.
+
 | Code | Meaning |
 |---:|---|
 | `0` | Success |
@@ -28,4 +32,3 @@ and checked. Failure must not leave a file at the requested output path.
 
 Diagnostics go to standard error. Standard output is reserved for stable
 automation output and a future optional machine-readable report.
-

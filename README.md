@@ -16,9 +16,9 @@ DWG backend can implement the same contract.
 ## Status
 
 This repository currently provides the versioned specification, JSON Schema, CLI
-contract, input validation, and compatibility fixtures. Native LibreDWG encoding is
-the next implementation milestone. Until that backend is available, `generate`
-fails explicitly with exit code `3` and never creates a placeholder DWG.
+contract, input validation, compatibility fixtures, and the first native backend
+probe. The probe writes and re-reads one static R2000 polyline block. Dynamic R2004
+generation remains unavailable and fails explicitly with exit code `3`.
 
 LibreDWG support for writing post-R2000 DWG versions and several dynamic-block
 objects is experimental. Generated files must therefore pass both structural
@@ -37,7 +37,8 @@ dotnet run --project src/LibreDWG.BlockGenerator.Cli -- generate `
 
 See [the input specification](docs/input-spec-v1.md),
 [CLI contract](docs/command-line.md), and
-[JSON Schema](schema/dynamic-block-spec-v1.schema.json).
+[JSON Schema](schema/dynamic-block-spec-v1.schema.json). Native build instructions
+are in [docs/native-build.md](docs/native-build.md).
 
 ## Build
 
